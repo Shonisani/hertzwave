@@ -1,87 +1,175 @@
 import { Component } from '@angular/core';
+
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 
+import { NgForm } from '@angular/forms';
+
+import { DatabaseProvider } from '../../providers/database/database';
+
+import firebase from 'firebase';
+
 /**
- * Generated class for the LoginPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
-@IonicPage()
+* Generated class for the LoginPage page.
+
+*
+
+* See https://ionicframework.com/docs/components/#navigation for more info on
+
+* Ionic pages and navigation.
+
+*/@IonicPage()
+
 @Component({
-  selector: 'page-login',
-  templateUrl: 'login.html',
+
+ selector: 'page-login',
+
+ templateUrl: 'login.html',
+
 })
-export class LoginPage {
 
-  email;
-  password;
-  
-  constructor(public navCtrl: NavController, public navParams: NavParams, private alertCtrl: AlertController) {
+export class LoginPage {  email;
 
-  }
+ password;  constructor(public navCtrl: NavController, public navParams: NavParams, private alertCtrl: AlertController, private db :DatabaseProvider) {  }  ionViewDidLoad() {
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad LoginPage');
-  }
+   console.log('ionViewDidLoad LoginPage');
 
+ }  login(form: NgForm){
 
+   this.db.login(form.value.email, form.value.password).then((data)=>{  
+         var userID = firebase.auth().currentUser.uid;      const alert = this.alertCtrl.create({
 
+       title: 'Success',
 
-  myMethod(){
-    if(this.email == undefined, this.password == undefined){
-      const prompt = this.alertCtrl.create({
-        title: 'Please Check',
-        message: 'Please Enter required imformation!',
-        buttons: [
-          {
-            text: 'OK',
-            handler: data => {
-              console.log('ok');
-            }
+       subTitle: 'You have successfully logged in!!!',
 
-          }
-        ]
-      });
-      prompt.present();
-    }
-    else if(this.email == undefined){
-      const prompt = this.alertCtrl.create({
-        title: 'Please Check',
-        message: 'Plaese Enter Your Email!',
-        buttons: [
-          {
-            text: 'OK',
-            handler: data => {
-              console.log('ok');
-            }
+       buttons: [
 
-          }
-        ]
-      });
-      prompt.present();
-    }
-    else if(this.password == undefined){
-      const prompt = this.alertCtrl.create({
-        title: 'Please Check',
-        message: 'Please Enter Your Password!',
-        buttons: [
-          {
-            text: 'OK',
-            handler: data => {
-              console.log('ok');
-            }
+         {
 
-          }
-        ]
-      });
-      prompt.present();
-    }
-    else{
+           text: 'Ok',
 
-      // this.navCtrl.push(CategoriesPage);
-    }
-  }
+           handler: ()=>{
 
-}
+             console.log(data);
+
+           }
+
+         }
+
+       ]
+
+     });
+
+     alert.present();
+
+   }).catch((error)=>{
+
+     const alert = this.alertCtrl.create({
+
+       title: error.code,
+
+       subTitle: error.message,
+
+       buttons: [
+
+         {
+
+           text: 'Ok',
+
+           handler: ()=>{
+
+             console.log(error);
+
+           }
+
+         }
+
+       ]
+
+     });
+
+     alert.present();
+
+   });
+
+ }  resetPassword(){
+
+   const prompt = this.alertCtrl.create({
+
+     title: 'Auth',
+
+     message: "Enter your email to reset your password",
+
+     inputs: [
+
+       {
+
+         name:'email',
+
+         placeholder: 'Example@gmail.com'
+
+       },
+
+     ],
+
+     buttons: [
+
+       {
+
+         text: 'Cancel',
+
+         handler: data => {
+
+           console.log('Cancel clicked');
+
+         }
+
+       },
+
+       {
+
+         text: 'Save',
+
+         handler: data => {        
+         this.db.resetPassword(data.email).then(()=>{const alert = this.alertCtrl.create({
+
+ title: 'Caution',
+
+ message: 'your request is been proccessed check your email ',
+
+ buttons: ['OK']
+
+});
+
+alert.present();
+
+           },(error)=>{
+
+             const alert = this.alertCtrl.create({
+
+               title: 'Caution',
+
+               message: error.message,
+
+               buttons: ['OK']
+
+             });
+
+             alert.present();            })
+
+           console.log('Saved clicked');
+
+         }
+
+       }
+
+     ]
+
+   });
+
+   prompt.present();
+
+ }
+
+ }

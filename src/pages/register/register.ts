@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
-
+import firebase from 'firebase';
+import { DatabaseProvider } from '../../providers/database/database';
 /**
  * Generated class for the RegisterPage page.
  *
@@ -15,8 +16,18 @@ import { NgForm } from '@angular/forms';
   templateUrl: 'register.html',
 })
 export class RegisterPage {
+  name;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  surname;
+ 
+  location;
+ 
+  password;
+ 
+  email;
+ 
+  phone;
+  constructor(public navCtrl: NavController, public navParams: NavParams,public db:DatabaseProvider) {
   }
 
   ionViewDidLoad() {
@@ -24,7 +35,39 @@ export class RegisterPage {
   }
 
   register(form: NgForm){
-    console.log(form.value);
-  }
 
+    console.log(form.value);   
+   this.name=form.value.name;
+ 
+    this.surname=form.value.surname;
+ 
+    this.location=form.value.location;
+ 
+    this.password=form.value.password;
+ 
+    this.email=form.value.email;
+ 
+    this.phone=form.value.phone;   
+    this.db.registerUser(this.email,this.password).then(data =>{      var userID = firebase.auth().currentUser.uid;      if(userID!=null)
+ 
+      {
+ 
+        firebase.database().ref('Registration/' +userID).set({         
+           name:this.name,
+ 
+          surname:this.surname,
+ 
+          location:this.location,
+ 
+          phone:this.phone,
+ 
+          email:this.email,
+ 
+          password:this.password    
+            });
+ 
+      }    });
+ 
+    ;  }
+    
 }

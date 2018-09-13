@@ -10,6 +10,10 @@ import { CategoriesPage } from '../pages/categories/categories';
 import { LoginPage } from '../pages/login/login';
 import { RegisterPage } from '../pages/register/register';
 import { DatabaseProvider } from '../providers/database/database';
+import { HttpClientModule } from '@angular/common/http';
+import { ProfilePage } from '../pages/profile/profile';
+import { RegisterDjPage } from '../pages/register-dj/register-dj';
+
 
 @NgModule({
   declarations: [
@@ -17,10 +21,14 @@ import { DatabaseProvider } from '../providers/database/database';
     HomePage,
     CategoriesPage,
     LoginPage,
-    RegisterPage
+    RegisterPage,
+    ProfilePage,
+    RegisterPage,
+    RegisterDjPage
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
@@ -29,7 +37,10 @@ import { DatabaseProvider } from '../providers/database/database';
     HomePage,
     CategoriesPage,
     LoginPage, 
-    RegisterPage
+    RegisterPage,
+    ProfilePage,
+    RegisterPage,
+    RegisterDjPage
   ],
   providers: [
     StatusBar,

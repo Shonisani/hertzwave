@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Register</ion-title>
+    <!-- <ion-title>Register</ion-title> -->
   </ion-navbar>
 
 </ion-header>
@@ -16,9 +16,13 @@
 <ion-content padding class="App">
   <!-- creating the form  
   giving the form a template variable of f-->
+  
+  <div class="register">
   <form #f="ngForm" (ngSubmit)="register(f)">
     <div class="back">
+
       <ion-item class="ion-item">
+        
         <ion-label color="light">
           <ion-icon name="contact"></ion-icon>
         </ion-label>
@@ -54,20 +58,20 @@
         <ion-label color="light">
             <ion-icon name="locate"></ion-icon>
         </ion-label>
-        <ion-input type="location" placeholder="location" name="location" ngModel required></ion-input>
+        <ion-input type="confirm password" placeholder="confirm password" name="confirm password" ngModel required></ion-input>
       </ion-item>
 
-      <ion-item class="ion-item" no-lines>
+      <!-- <ion-item class="ion-item" no-lines>
         <ion-label color="light">
             <ion-icon name="call"></ion-icon>
         </ion-label>
         <ion-input type="phone" placeholder="phone" name="phone" ngModel required></ion-input>
-      </ion-item>
+      </ion-item> -->
       <!-- creating the submission button for the form 
       -[disabled]="!f.valid" will make the button not work unless valid data is entered
       -type="submit" triggers the ngsubmit method-->
       <button class="button" type="submit" ion-button full [disabled]="!f.valid" round color="light">Register</button>
     </div>
   </form>
-
+</div>
 </ion-content>
